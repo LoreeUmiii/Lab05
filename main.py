@@ -1,4 +1,6 @@
 import flet as ft
+from flet.controls import alignment
+
 from alert import AlertManager
 from deposito_strumenti import DepositoStrumenti
 
@@ -37,6 +39,12 @@ def main(page: ft.Page):
 
     # Tutti i TextField per le info necessarie per aggiungere un nuovo strumento (tipo, marca, anno, contatore posti)
     # TODO
+    input_tipo = ft.TextField(label="Tipo")
+    input_marca = ft.TextField(label="Marca")
+    input_anno_acquisto = ft.TextField(label="Anno Acquisto")
+    # input_valore = ft.TextField(value="0", width=200) NON GLI PIACE TEXTFIELD...
+
+
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
@@ -56,6 +64,27 @@ def main(page: ft.Page):
 
     # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
     # TODO
+    '''
+    def incrementa_valore():
+        valore = float(input_valore or 0)
+        input_valore.value = str(valore + 1)
+
+    def decrementa_valore():
+        valore = float(input_valore or 0)
+        if valore >= 1:
+            input_valore.value = str(valore - 1)
+    '''
+    def aggiorna_lista_strumenti():
+        tipo = input_tipo
+        marca = input_marca
+        anno_acquisto = input_anno_acquisto
+        # valore = input_valore
+        input_tipo.value = ""
+        input_marca.value = ""
+        input_anno_acquisto.value = ""
+        # input_valore.value="0"
+        deposito.aggiungi_strumento(tipo, marca, anno_acquisto, 0) #,valore)
+
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
@@ -63,6 +92,9 @@ def main(page: ft.Page):
 
     # Pulsanti per la gestione dell'inserimento di un nuovo strumento
     # TODO
+    pulsante_aggiungi_strumento = ft.Button("Aggiungi strumento", on_click=aggiorna_lista_strumenti)
+    # pulsante_piu = ft.Button("+", on_click=incrementa_valore)
+    # pulsante_meno = ft.Button("-", on_click=decrementa_valore)
 
     # --- LAYOUT ---
     page.add(
@@ -78,9 +110,18 @@ def main(page: ft.Page):
         ft.Row(spacing=200,
                controls=[input_responsabile, pulsante_conferma_responsabile],
                alignment=ft.MainAxisAlignment.CENTER),
+        ft.Divider(),
 
         # Sezione 3
         # TODO
+        ft.Text("Aggiungi nuovo strumento", size=20),
+        ft.Row(spacing=10,
+               controls=[input_tipo, input_marca,input_anno_acquisto, ],
+                         #pulsante_meno, input_valore, pulsante_piu,
+               alignment=ft.MainAxisAlignment.CENTER
+               ),
+        pulsante_aggiungi_strumento,
+
 
         # Sezione 4
         ft.Divider(),
